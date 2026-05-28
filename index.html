@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Happy Graduation </title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:      #fdf6ee;
+      --warm-beige: #f5e6d3;
+      --gold:       #c9a96e;
+      --gold-light: #e8d5b0;
+      --brown:      #8b6a47;
+      --text-dark:  #3d2b1f;
+      --text-mid:   #6b4c35;
+      --glass-bg:   rgba(255, 248, 240, 0.18);
+      --glass-border: rgba(255, 220, 180, 0.35);
+      --glass-shadow: rgba(139, 90, 43, 0.18);
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .hidden   { display: none !important; }
+    .invisible { opacity: 0; pointer-events: none; }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.45;
+    }
+
+    #landing-screen {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: linear-gradient(145deg, #fdf6ee 0%, #f5e6d3 40%, #eeddc4 70%, #e8d0b5 100%);
+      z-index: 1000;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+    }
+
+    #landing-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .petal {
+      position: absolute;
+      border-radius: 50% 0 50% 0;
+      opacity: 0.25;
+      animation: floatPetal linear infinite;
+    }
+
+    @keyframes floatPetal {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.3; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) rotate(540deg); opacity: 0; }
+    }
+
+    .landing-badge {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s ease forwards;
+    }
+
+    .landing-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 5.5vw, 2.4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-dark);
+      text-align: center;
+      line-height: 1.45;
+      max-width: 320px;
+      padding: 0 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.6s ease forwards;
+    }
+
+    .landing-title span {
+      display: block;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--brown);
+    }
+
+    .landing-divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.8rem auto;
+      opacity: 0;
+      animation: fadeUp 1s 0.9s ease forwards;
+    }
+
+    #btn-open-landing {
+      opacity: 0;
+      animation: fadeUp 1s 1.2s ease forwards;
+      position: relative;
+      border: none; outline: none; cursor: pointer;
+      padding: 0.85rem 2.2rem;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--gold) 0%, #b8904a 100%);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      box-shadow: 0 6px 24px rgba(180, 130, 60, 0.35), 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #btn-open-landing::before {
+      content: '';
+      position: absolute; inset: -3px;
+      border-radius: 53px;
+      background: linear-gradient(135deg, var(--gold-light), transparent, var(--gold));
+      opacity: 0.5;
+      animation: pulseBorder 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseBorder {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50%       { transform: scale(1.06); opacity: 0.15; }
+    }
+
+    #btn-open-landing:active { transform: scale(0.96); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.88) translateY(18px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes popIn {
+      0%   { opacity: 0; transform: scale(0.5) rotate(-8deg); }
+      70%  { opacity: 1; transform: scale(1.08) rotate(2deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; } to { opacity: 0; }
+    }
+
+    #main-screen {
+      position: fixed; inset: 0;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    #main-screen.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #bg-media-initial {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    #bg-final {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0;
+      display: none;
+      transition: opacity 0.6s ease;
+    }
+
+    #overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.30);
+      z-index: 1;
+    }
+
+    #glass-card {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 10;
+      margin: 0 auto 0;
+      max-width: 440px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid var(--glass-border);
+      border-bottom: none;
+      border-radius: 28px 28px 0 0;
+      box-shadow: 0 -8px 40px var(--glass-shadow), 0 0 0 1px rgba(255,255,255,0.08) inset;
+      padding: 1.4rem 1.4rem 2rem;
+      opacity: 0;
+      transform: translateY(80px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    #glass-card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #glass-card::before {
+      content: '';
+      display: block;
+      width: 40px; height: 4px;
+      background: rgba(255,220,160,0.5);
+      border-radius: 2px;
+      margin: 0 auto 1rem;
+    }
+
+    #card-gif {
+      width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      border-radius: 16px;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    #card-buttons {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .card-btn {
+      flex: 1;
+      padding: 0.75rem 0;
+      border-radius: 14px;
+      border: none; outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.03em;
+    }
+
+    .card-btn:active { transform: scale(0.95); }
+
+    #btn-buka {
+      background: linear-gradient(135deg, var(--gold) 0%, #b8904a 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(180,130,60,0.4);
+    }
+
+    #btn-tutup {
+      background: rgba(255,255,255,0.18);
+      color: var(--text-dark);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+    }
+
+    .spawn-img {
+      position: fixed;
+      width: 80px; height: 80px;
+      object-fit: contain;
+      border-radius: 12px;
+      z-index: 9000;
+      pointer-events: none;
+      animation: popIn 0.3s ease forwards;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .spawn-img.fading {
+      animation: fadeOut 0.4s ease forwards;
+    }
+
+    #final-content {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.25rem 3rem;
+      opacity: 0;
+      display: none;
+    }
+
+    #final-content.show {
+      display: flex;
+      animation: fadeIn 0.8s 0.1s ease forwards;
+    }
+
+    /* Final screen GIF */
+    #final-gif {
+      width: min(260px, 75vw);
+      border-radius: 20px;
+      margin-bottom: 1.4rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      animation: scaleIn 0.7s ease forwards;
+    }
+
+    /* Message box */
+    #message-box {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 248, 238, 0.22);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+      border: 1px solid rgba(255, 220, 170, 0.4);
+      border-radius: 24px;
+      padding: 1.75rem 1.5rem;
+      box-shadow: 0 8px 40px rgba(100,60,20,0.2), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      animation: scaleIn 0.7s 0.25s ease both;
+    }
+
+    .msg-tag {
+      display: inline-block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,169,110,0.15);
+      border: 1px solid rgba(201,169,110,0.3);
+      border-radius: 30px;
+      padding: 0.25rem 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .msg-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+
+    .msg-divider {
+      width: 50px; height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 0 1rem 0;
+    }
+
+    .msg-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(255,248,238,0.92);
+      white-space: pre-line;
+    }
+
+    .msg-signature {
+      margin-top: 1.2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--gold-light);
+      text-align: right;
+    }
+    #music-toggle {
+      position: fixed;
+      bottom: 1.4rem; right: 1.4rem;
+      z-index: 8000;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 16px var(--glass-shadow);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--gold);
+      font-size: 1.1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: none;
+    }
+
+    #music-toggle.active { display: flex; }
+    #music-toggle:active { transform: scale(0.9); }
+
+  </style>
+</head>
+<body>
+
+<audio id="bg-music" loop>
+  <source src="https://github.com/adewahyuh90-lang/music-background/raw/refs/heads/main/C418%20-%20Subwoofer%20Lullaby%20-%20Minecraft%20Volume%20Alpha.mp3" type="audio/mpeg" />
+</audio>
+
+<audio id="sfx-fahhh">
+  <source src="https://github.com/adewahyuh90-lang/music-background/raw/refs/heads/main/fahhh_KcgAXfs.mp3" type="audio/mpeg" />
+</audio>
+
+<div id="landing-screen">
+
+  <!-- Floating petal decorations (CSS-only, no images needed) -->
+  <div class="petal" style="width:12px;height:16px;background:#e8c89a;left:12%;animation-duration:8s;animation-delay:0s;"></div>
+  <div class="petal" style="width:9px;height:13px;background:#d4a87a;left:28%;animation-duration:11s;animation-delay:2s;"></div>
+  <div class="petal" style="width:14px;height:18px;background:#f0d4b0;left:55%;animation-duration:9s;animation-delay:1.5s;"></div>
+  <div class="petal" style="width:8px;height:11px;background:#c9a96e;left:72%;animation-duration:12s;animation-delay:3s;"></div>
+  <div class="petal" style="width:11px;height:15px;background:#e0c090;left:88%;animation-duration:10s;animation-delay:0.5s;"></div>
+  <div class="petal" style="width:10px;height:14px;background:#dbb070;left:40%;animation-duration:13s;animation-delay:4s;"></div>
+
+  <p class="landing-badge">✦ a special message ✦</p>
+
+  <h1 class="landing-title">
+    Sebuah pesan kelulusan<br />
+    <span>khusus buat kmu...</span>
+  </h1>
+
+  <div class="landing-divider"></div>
+
+  <button id="btn-open-landing" onclick="startExperience()">
+    Buka Pesan &nbsp;
+  </button>
+
+</div>
+
+
+<div id="main-screen">
+
+  <img id="bg-media-initial" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdW1jcmJ2ZWhoM3dxazlzcmRwbjRid2w0Zm05MzdtZHhleDdrc2FvdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JNV54P6o5ebI5RqKlK/giphy.gif" alt="background" />
+
+  <img id="bg-final" src="https://i.postimg.cc/NFmz1skg/aydinliaydinnnn-pindown-io-1779975399.jpg" alt="final background" />
+
+  <!-- Overlay -->
+  <div id="overlay"></div>
+
+  <div id="glass-card">
+
+    <img id="card-gif" src="
+    https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXo3NWYydnkwYXoxdG8wMmhrOHV2YWJyMTc2eG5hYXA0bWp4M3Z2dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ibjOnaRoqF6qHdxCko/giphy.gif" alt="gif lucu" />
+
+    <div id="card-buttons">
+      <button class="card-btn" id="btn-buka" onclick="handleBuka()">
+         &nbsp;Buka?
+      </button>
+      <button class="card-btn" id="btn-tutup" onclick="handleTutup()">
+         &nbsp;Tutup?
+      </button>
+    </div>
+
+  </div>
+
+  <div id="final-content">
+
+    <img id="final-gif" src="https://i.postimg.cc/257Qrdtz/erasebg-transformed-(1).png" alt="gif lucu final" />
+
+    <div id="message-box">
+      <span class="msg-tag">Happy Graduation nanayyy</span>
+
+      <h2 class="msg-title">Congrats.</h2>
+
+      <div class="msg-divider"></div>
+
+      <p class="msg-text">
+Happy Graduation nayy!!
+
+I’m honestly so proud of you and how far you’ve come. Meskipun jalan kita udah beda, tapi melihat kamu akhirnya lulus dan berhasil ngelewatin masa-masa SMA ini bikin aku ikut seneng. Wishing you nothing but the best for your next chapter. Terus kejar apa yang kamu cita-citakan, ya!
+
+Kalau diingat-ingat lagi, lucu ya masa-masa sekolah kemarin. Anyway, makasih buat semua tawa, obrolan, dan memori yang pernah kita bagi bareng. Meskipun sekarang kita udah punya arah masing-masing, semua cerita itu bakal tetep punya tempatnya sendiri.
+
+Aku tau perjalanan ke depan setelah lulus ini nggak bakal selalu mudah, tapi aku selalu percaya kalau kamu itu kuat dan hebat. Semoga kamu dilancarkan di langkah selanjutnya, entah itu buat kuliah, kerja, atau apa pun impian yang lagi kamu kejar sekarang. Never doubt yourself, because you are capable of doing amazing things.
+
+Sekali lagi, happy graduation! Rayain hari ini dengan bahagia ya, kamu bener-bener layak mendapatkannya. Walaupun jalurnya udah berbeda, tapi doa baikku bakal selalu menyertai setiap langkah kamu dari jauh. Congratulation on your big day, and keep shining nayy!
+      </p>
+
+      <p class="msg-signature">— From my green for your blue,nayy.</p>
+    </div>
+
+  </div>
+
+  <button id="music-toggle" onclick="toggleMusic()" title="Toggle Musik">
+    <i class="fa-solid fa-music" id="music-icon"></i>
+  </button>
+
+</div>
+
+
+<script>
+
+  const landingScreen  = document.getElementById('landing-screen');
+  const mainScreen     = document.getElementById('main-screen');
+  const bgMusic        = document.getElementById('bg-music');
+  const sfxFahhh       = document.getElementById('sfx-fahhh');
+  const glassCard      = document.getElementById('glass-card');
+  const bgFinal        = document.getElementById('bg-final');
+  const bgInitial      = document.getElementById('bg-media-initial');
+  const finalContent   = document.getElementById('final-content');
+  const btnBuka        = document.getElementById('btn-buka');
+  const btnTutup       = document.getElementById('btn-tutup');
+  const musicToggle    = document.getElementById('music-toggle');
+  const musicIcon      = document.getElementById('music-icon');
+
+  const SPAWN_IMG_URL = 'https://i.postimg.cc/Hsy0x8vy/dca0019e-665d-4955-80d9-f89e7cf361d8.jpg';
+
+  let isMusicPlaying = false;
+
+  function startExperience() {
+
+    bgMusic.volume = 0.4;
+    bgMusic.play().catch(() => {});
+    isMusicPlaying = true;
+
+    landingScreen.classList.add('fade-out');
+
+    setTimeout(() => {
+      mainScreen.classList.add('visible');
+      musicToggle.classList.add('active');
+
+      setTimeout(() => {
+        glassCard.classList.add('show');
+      }, 3000);
+
+    }, 600); 
+  }
+
+  
+  function toggleMusic() {
+    if (isMusicPlaying) {
+      bgMusic.pause();
+      musicIcon.className = 'fa-solid fa-volume-xmark';
+      isMusicPlaying = false;
+    } else {
+      bgMusic.play().catch(() => {});
+      musicIcon.className = 'fa-solid fa-music';
+      isMusicPlaying = true;
+    }
+  }
+
+  function handleTutup() {
+    sfxFahhh.currentTime = 0;
+    sfxFahhh.play().catch(() => {});
+
+    spawnRandomImage();
+  }
+
+  function spawnRandomImage() {
+    const img = document.createElement('img');
+    img.src   = SPAWN_IMG_URL;
+    img.className = 'spawn-img';
+
+    const maxX = window.innerWidth  - 90;
+    const maxY = window.innerHeight - 90;
+    const randX = Math.floor(Math.random() * maxX);
+    const randY = Math.floor(Math.random() * maxY);
+
+    img.style.left = randX + 'px';
+    img.style.top  = randY + 'px';
+
+    document.body.appendChild(img);
+
+    setTimeout(() => {
+      img.classList.add('fading');
+      setTimeout(() => {
+        if (img.parentNode) img.parentNode.removeChild(img);
+      }, 420);
+    }, 2000);
+  }
+
+  function handleBuka() {
+    
+    glassCard.style.transition = 'opacity 0.4s, transform 0.4s';
+    glassCard.style.opacity    = '0';
+    glassCard.style.transform  = 'translateY(80px)';
+
+    setTimeout(() => {
+      glassCard.style.display = 'none';
+
+      bgInitial.style.transition = 'opacity 0.6s';
+      bgInitial.style.opacity    = '0';
+      bgFinal.style.display      = 'block';
+      bgFinal.style.opacity      = '0';
+      setTimeout(() => {
+        bgFinal.style.opacity = '1';
+      }, 50);
+
+      finalContent.classList.add('show');
+
+    }, 420);
+  }
+</script>
+
+</body>
+</html>
